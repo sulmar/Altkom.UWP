@@ -1,0 +1,108 @@
+﻿<Page
+    x:Class="Altkom.Bicycle.UWPClient.Views.StationsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Altkom.Bicycle.UWPClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:c="using:Altkom.Bicycle.UWPClient.Converters"
+    xmlns:vm="using:Altkom.Bicycle.UWPClient.ViewModels"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <c:LocationConverter x:Key="LocationConverter" />
+    </Page.Resources>
+  
+    
+    <Page.DataContext>
+        <vm:StationsViewModel />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <StackPanel>
+
+            <!-- Buttons -->
+            
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Load Stations">
+                </Button>
+                <Button>Add Station</Button>
+                <Button Style="{StaticResource RemoveButtonStyle}">Remove Station</Button>
+                <Button>Update Station</Button>
+            </StackPanel>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*" />
+                    <ColumnDefinition Width="70*" />
+                </Grid.ColumnDefinitions>
+            
+            <!-- Stations -->
+            
+            <ListBox 
+            ItemsSource="{Binding Stations}"
+            SelectedItem="{Binding SelectedStation, Mode=TwoWay}"
+            >
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding StationName}" 
+                                   FontWeight="Bold"
+                                   FontSize="20"
+                                   />
+                        <TextBlock Text="{Binding Address}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+           
+        </ListBox>
+
+            <!-- Selected Station -->
+                <StackPanel Grid.Column="1" 
+                        DataContext="{Binding SelectedStation}">
+                    <TextBox 
+                        Header="Station name"                        
+                        HeaderTemplate="{StaticResource MyHeaderTemplate}"
+                        PlaceholderText="Type station name"
+                        Text="{Binding StationName, Mode=TwoWay}" />
+                    
+                    <TextBox 
+                        Header="Address"
+                        HeaderTemplate="{StaticResource MyHeaderTemplate}"
+                        PlaceholderText="ul. Chlodna 52, Warszawa"
+                        Text="{Binding Address}" />
+
+
+                    <TextBox 
+                        Header="Location"
+                        HeaderTemplate="{StaticResource MyHeaderTemplate}"
+                        
+                        Text="{Binding Location, Mode=TwoWay, Converter={StaticResource LocationConverter}, ConverterParameter='abc'}" >
+
+                        <!--<TextBox.Template>
+                            <ControlTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Opis" />
+                                    <ContentPresenter />
+                                </StackPanel>
+                            </ControlTemplate>
+                        </TextBox.Template>-->
+                    </TextBox>
+
+                    <TextBlock Text="{Binding Location.Latitude}" />
+                    <TextBlock Text="{Binding Location.Longitude}" />
+                    <TextBlock Text="{Binding Location.Altitude}" />
+                    
+                </StackPanel>
+
+
+            </Grid>
+            
+        </StackPanel><!--#endregion-->
+
+        
+    </Grid>
+</Page>

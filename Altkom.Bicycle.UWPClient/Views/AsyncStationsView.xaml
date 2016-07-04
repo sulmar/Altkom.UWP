@@ -1,0 +1,73 @@
+﻿<Page
+    x:Class="Altkom.Bicycle.UWPClient.Views.AsyncStationsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Altkom.Bicycle.UWPClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Altkom.Bicycle.Models"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="StationTemplate"
+                      x:DataType="model:Station">
+            <StackPanel>
+                <TextBlock Text="{x:Bind StationName}" />
+            </StackPanel>
+        </DataTemplate>
+
+
+        <Storyboard x:Name="MyStoryBoard">
+            <DoubleAnimation To="220" Duration="0:0:1"
+                             Storyboard.TargetProperty="(FrameworkElement.Width)"
+                             Storyboard.TargetName="SecondPageButton"
+                              AutoReverse="True"
+                             RepeatBehavior="Forever"
+                             />
+        </Storyboard>
+        
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button 
+                    
+                    Content="Load Stations" Click="{x:Bind ViewModel.LoadAsync}">
+
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="GotFocus">
+                            <BeginStoryboard>
+                                
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        
+                    </Button.Triggers>
+                </Button>
+
+                <Button
+                    x:Name="SecondPageButton"
+                    Content="View Second Page" Click="SecondViewButton_Click" />
+                
+                
+            </StackPanel>
+
+            <ListBox ItemsSource="{x:Bind ViewModel.Stations, Mode=OneWay}" 
+                     ItemTemplate="{StaticResource StationTemplate}"
+                     Width="300"
+                     >
+
+
+
+                <ListBox.RenderTransform>
+                    <RotateTransform Angle="270" CenterY="100"
+                                     CenterX="200"
+                                     />
+                </ListBox.RenderTransform>
+            </ListBox>
+
+        </StackPanel>
+
+    </Grid>
+</Page>

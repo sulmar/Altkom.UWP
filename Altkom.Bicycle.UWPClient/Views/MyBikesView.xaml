@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Altkom.Bicycle.UWPClient.Views.MyBikesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Altkom.Bicycle.UWPClient.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Altkom.Bicycle.Models"
+    xmlns:c="using:Altkom.Bicycle.UWPClient.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+
+        <c:NoopConverter x:Key="NoopConverter" />
+
+
+        <DataTemplate x:Key="MyBikeTemplate"
+                      x:DataType="model:Bike"
+                      >
+
+            <StackPanel>
+                <TextBlock Text="{x:Bind Model}" />
+                <TextBlock Text="{x:Bind Number}" />
+            </StackPanel>
+            
+        </DataTemplate>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <StackPanel>
+
+            <Button Content="Add bike" Click="{x:Bind ViewModel.AddBike}" />
+            
+            <TextBox Text="{Binding SelectedBike.Model, Mode=TwoWay}" />
+
+            <ListBox ItemsSource="{x:Bind ViewModel.Bikes}"
+                     ItemTemplate="{StaticResource MyBikeTemplate}"
+                     SelectedItem="{x:Bind ViewModel.SelectedBike, Mode=TwoWay, Converter={StaticResource NoopConverter}}"
+                     >
+            </ListBox>
+
+        </StackPanel>
+
+    </Grid>
+</Page>
